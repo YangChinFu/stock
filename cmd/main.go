@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/YangChinFu/stock/pkg/realtime"
+	"github.com/chinfuyang/stock/pkg/realtime"
 )
 
 func main() {

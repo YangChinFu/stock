@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/YangChinFu/stock/pkg/request"
 	"github.com/buger/jsonparser"
+	"github.com/chinfuyang/stock/pkg/request"
 )
 
 var (

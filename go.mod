@@ -1,4 +1,4 @@
-module github.com/YangChinFu/stock
+module github.com/chinfuyang/stock
 
 go 1.13
 
