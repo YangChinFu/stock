@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chinfuyang/stock/pkg/path"
@@ -107,4 +108,48 @@ func UpdateCodes() {
 	toCsv(TwseEquitiesURL, twsePath)
 	tpexPath := filepath.Join(path.Exec(), "TpexEquities.csv")
 	toCsv(TpexEquitiesURL, tpexPath)
+}
+
+// Code 是台灣上市上櫃股票的結構
+type Code struct {
+	Type   string
+	Code   string
+	Name   string
+	ISIN   string
+	Start  time.Time
+	Market string
+	Group  string
+	CFI    string
+}
+
+// New return new code
+func New() Code {
+	return Code{}
+}
+
+// ParseCsv will parse the data in csv and return array of Code
+func ParseCsv(content string) []Code {
+	r := csv.NewReader(strings.NewReader(content))
+	records, err := r.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	codes := make([]Code, len(records)-1)
+	const timeLayout = "2006/01/02"
+
+	for i, record := range records[1:] {
+		start, _ := time.Parse(timeLayout, record[4])
+
+		codes[i].Type = record[0]
+		codes[i].Code = record[1]
+		codes[i].Name = record[2]
+		codes[i].ISIN = record[3]
+		codes[i].Start = start
+		codes[i].Market = record[5]
+		codes[i].Group = record[6]
+		codes[i].CFI = record[6]
+	}
+
+	return codes
 }
